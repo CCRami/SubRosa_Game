@@ -1,0 +1,105 @@
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+#include <stdio.h>
+#include <SDL/SDL_mixer.h>
+ 
+int main(int argc, char *argv[])
+ 
+{
+    int x,y ;
+    SDL_Surface *Menu = NULL;
+    SDL_Surface *ecran = NULL;
+    SDL_Surface *Continue = NULL;
+    SDL_Surface *Continue1 = NULL;
+    SDL_Surface *Newgame = NULL;
+    SDL_Surface *Newgame1 = NULL;
+    SDL_Surface *Option = NULL;
+    SDL_Surface *Quit = NULL;
+    SDL_WM_SetCaption("Gestion des évènements en SDL", NULL);
+    int continuer=1;
+    SDL_Event event;
+    SDL_Rect positionMenu, positionContinue, positionNewgame, positionOption, positionQuit ;
+    positionMenu.x=0;
+    positionMenu.y=0;
+    positionContinue.x=220;
+    positionContinue.y=50;
+    positionNewgame.x=220;
+    positionNewgame.y=150;
+    positionOption.x=220;
+    positionOption.y=250;
+    positionQuit.x=220;
+    positionQuit.y=350;
+ 
+ 
+    SDL_Init( SDL_INIT_EVERYTHING );
+    //SDL_WM_SetIcon(IMG_Load("icon.pnj"), NULL);//(icon de la fenetre )
+    ecran = SDL_SetVideoMode( 960,720, 32, SDL_HWSURFACE);
+    SDL_WM_SetCaption("VIDEOGAME", NULL);
+    Menu = SDL_LoadBMP("Menu.bmp");
+    SDL_BlitSurface( Menu, NULL, ecran, &positionMenu);
+    Continue = SDL_LoadBMP("CONTINUE.bmp");
+    SDL_BlitSurface(Continue, NULL, ecran, &positionContinue);
+    Newgame = SDL_LoadBMP("NEWGAME.bmp");
+    SDL_BlitSurface(Newgame, NULL, ecran, &positionNewgame);
+    Option = SDL_LoadBMP("OPTIONS.bmp");
+    SDL_BlitSurface(Option, NULL, ecran, &positionOption);
+    Quit = SDL_LoadBMP("QUITGAME.bmp");
+    SDL_BlitSurface(Quit, NULL, ecran, &positionQuit);
+    SDL_Flip( ecran );
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1) //Initialisation de l'API Mixer
+    {
+        // printf("%s", Mix_GetError());
+    }
+    Mix_Music *musique; //Création du pointeur de type Mix_Music
+    musique = Mix_LoadMUS("musique.mp3"); //Chargement de la musique
+    Mix_PlayMusic(musique, -1); //Jouer infiniment la musique
+    pause ();
+    //KEYBOARD EVENT
+    if( SDL_PollEvent( &event ) )
+    {
+        //If a key was pressed
+        if( event.type == SDL_KEYDOWN )
+        {
+            switch( event.key.keysym.sym )
+            {
+ 
+                case SDLK_DOWN:
+                Newgame = SDL_LoadBMP("NEWGAME1.bmp");
+                SDL_BlitSurface(Newgame, NULL, ecran, &positionNewgame);
+                break;
+                case SDLK_UP:
+                Continue = SDL_LoadBMP("CONTINUE1.bmp");
+                SDL_BlitSurface(Continue, NULL, ecran, &positionContinue);
+                break;
+            }
+ 
+        }
+    }
+    //MOUSE EVENT
+    if( event.type == SDL_MOUSEMOTION )
+    {
+        int x=0, y=0 ;
+        //Get the mouse offsets
+        x = event.motion.x;
+        y = event.motion.y;
+        //If the mouse is over the button
+        if( ( x > positionNewgame.x ) && ( y > positionNewgame.y ) )
+ 
+        {
+            SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 255, 255, 255));
+            Newgame = SDL_LoadBMP ("NEWGAME.bmp");
+            SDL_BlitSurface(Newgame, NULL, ecran, &positionNewgame);
+            SDL_Flip(ecran);
+        }
+    }
+    SDL_FreeSurface(Menu);
+    SDL_FreeSurface(Continue);
+    SDL_FreeSurface(Newgame);
+    SDL_FreeSurface(Option);
+    SDL_FreeSurface(Quit);
+    Mix_FreeMusic(musique); //Libération de la musique
+    Mix_CloseAudio(); //Fermeture de l'API
+    SDL_Quit();
+    return 0;
+}
+// gcc main.c -lSDL -lSDL_image -lSDL_mixer
