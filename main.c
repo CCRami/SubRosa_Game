@@ -199,7 +199,10 @@ perso.state=idle;
 		perso.score=0;
 		sec=0;
 		min=0;
-		
+		input=1;
+		choice=1;
+		duo=0;
+		pic=1;
 		afficher(tabimg[i],screen);
 		afficher(start,screen);
 		afficher(settings,screen);
@@ -1098,6 +1101,7 @@ update_ennemie (&en,&perso);
    }
    if (enigmemode==1)
 {
+arduinoWriteData(1);
 perso.pos_hero.x=60;
 //a=1;
 perso.health=50;
@@ -1194,7 +1198,10 @@ afficherEnigme(eg, screen);
 }
 
 if (enigmemode==2)
-{gamemode=afficherEnigmeif(ee,screen); //1 si perdu 2 si gagner
+
+{
+arduinoWriteData(2);
+gamemode=afficherEnigmeif(ee,screen); //1 si perdu 2 si gagner
 generer(&ee);
 InitEnigmeif(&ee ,&nomfichier[100]);
 if (gamemode==1)//perdu
@@ -1240,6 +1247,7 @@ if (perso.pos_hero.x == resx - persow)
             	SDL_Flip(screen);
             	SDL_Delay(1000);
             	gamemode=1;
+            	sauvgarder (perso.score, nom , "score.txt",gamemode);
             }
 /*if (enigmemode==0)
 {//perso.death==0;

@@ -24,11 +24,12 @@ void loop() {
 if(droite==1){
   Serial.write(1);
   Serial.println("1"); 
+ 
   delay(5);
     }
 else if(gauche==1){
   Serial.write(2);
-  Serial.println("2"); 
+  Serial.println("2");
   delay(5);
   }
 else {
@@ -37,7 +38,7 @@ else {
   delay(5);
   }
   // traitement des deux diodes led
-/*if(Serial.available()>0)
+if(Serial.available()>0)
 {
   BYTE=Serial.read();// on va lire l'information venant du SDL (une collision par exemple)
   if(BYTE=='1') //(Si la collision du coté droite on reçoi 1 alors on allume la première diode qui est sur la pin 13)
@@ -45,21 +46,21 @@ else {
     digitalWrite(10,HIGH);// allumer une première diode 
     digitalWrite(11,LOW);// la deuxième est éteinte
     Serial.write(1);
-    Serial.println("collision droite\n");// afficher un message sur le moniteur serie
+    Serial.println("1");// afficher un message sur le moniteur serie
   }
   else if(BYTE=='2')// (Si la collision coté gauche on reçoi 2 on allume la deuxième diode branchée sur la pin 12)
   {
     digitalWrite(11,HIGH);// allumer la deuxième diode
     digitalWrite(10,LOW);//la première diode est eteinte
     Serial.write(2);
-    Serial.println("collision gauche\n");// afficher un message sur le moniteur serie
+    Serial.println("2");// afficher un message sur le moniteur serie
   }
 else {// c'est à dire pas de collision on reçoi 0
     digitalWrite(10,LOW);
     digitalWrite(11,LOW);
     Serial.write(0);
-    Serial.println("pas de collision \n");
+    Serial.println("0");
   }
-}*/
+}
 
 }

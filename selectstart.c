@@ -223,6 +223,7 @@ if( ( x > clavier.pos.x ) && ( y > clavier.pos.y) && ( x < (clavier.pos.x+216) )
        	 		position=7;
        	 		Mix_PlayChannel(-1,chunk,0);
        	 		afficherparpositionagent(position, &men,&women, &solo,&duo,&start,&menu,&clavier,&manette,&continuee,&souris);	
+       	 		*input=1;
 				
        	 }
 
